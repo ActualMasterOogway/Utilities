@@ -81,7 +81,7 @@ local function getCallback(container, key)
     return typeof(callback) == "function" and {callback()} or {}
 end
 
-function module:Add(rootPart, options, callbacks)
+function module:Add(rootPart: Model & BasePart, options: {Name: string?, Color: Color3?, HighlightFocus: Instance?}, callbacks: {[any]: (...any) -> (...any)}?)
     if typeof(rootPart) == "Instance" and rootPart.ClassName == "Model" then
         rootPart = rootPart.PrimaryPart or findFirstIsA(rootPart, "BasePart")
     end
@@ -89,7 +89,7 @@ function module:Add(rootPart, options, callbacks)
         warn("Failed to find root part.")
         return
     elseif self.Containers[rootPart] then
-        self:Remove(rootPart)
+        self:Remove(rootPart)   
     end
 
     -- Setup callbacks (nullable)
@@ -342,5 +342,7 @@ connections.Update = RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
 getgenv().Vynixu_ESPModule = module
+
 return module
